@@ -17,20 +17,23 @@ class Game
 
   def play
     loop do
-      current_player = @players[@player_index]
-      puts "#{current_player.name} chose a spot."
-      spot = gets.chomp
-      @board.update_grid(spot, current_player.symbol)
       @board.display
+      current_player = @players[@player_index]
+      if @board.win?
+        @player_index = 1 - @player_index
+        current_player = @players[@player_index]
+        puts "#{current_player.name} wins!"
+        break
+      end
+      puts "#{current_player.name} chose a spot."
+      spot = (gets.chomp.to_i) - 1
+      @board.update_grid(spot, current_player.symbol)
+      @player_index = 1 - @player_index
     end
   
   end
 
-  def switch_players
-    @player_index = 1 - @player_index
-  end
+ 
 
 end
 
-mygame = Game.new
-mygame.play
